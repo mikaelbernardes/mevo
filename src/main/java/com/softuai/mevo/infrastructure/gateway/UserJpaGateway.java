@@ -2,10 +2,25 @@ package com.softuai.mevo.infrastructure.gateway;
 
 import com.softuai.mevo.core.entity.User;
 import com.softuai.mevo.core.gateway.UserGateway;
+import com.softuai.mevo.infrastructure.mapper.UserCoreMapper;
+import com.softuai.mevo.infrastructure.persistence.entity.UserEntity;
+import com.softuai.mevo.infrastructure.persistence.repository.UserRepository;
+import com.softuai.mevo.infrastructure.util.HasherUtil;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 public class UserJpaGateway implements UserGateway {
+
+    private final UserRepository userRepository;
+    private final UserCoreMapper userCoreMapper;
+    private final HasherUtil hasherUtil;
+
+    public UserJpaGateway(UserRepository userRepository, UserCoreMapper userCoreMapper, HasherUtil hasherUtil) {
+        this.userRepository = userRepository;
+        this.userCoreMapper = userCoreMapper;
+        this.hasherUtil = hasherUtil;
+    }
 
     @Override
     public String AuthenticationUserUseCase(String email, String password) {
@@ -24,7 +39,12 @@ public class UserJpaGateway implements UserGateway {
 
     @Override
     public User CreateUserUseCase(User user) {
-        return null;
+        UserEntity entity = userCoreMapper.toEntity(user);
+        entity.setPassword(hasherUtil.hash(entity.getPassword()));
+        entity.setCreatedAt(LocalDateTime.now());
+        entity.setPhoneNumber(hasherUtil.hash(entity.getPhoneNumber()));
+        UserEntity savedEntity = userRepository.save(entity);
+        return userCoreMapper.toCore(savedEntity);
     }
 
     @Override
