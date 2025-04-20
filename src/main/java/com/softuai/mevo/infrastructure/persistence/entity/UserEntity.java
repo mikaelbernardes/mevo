@@ -5,20 +5,11 @@ import com.softuai.mevo.core.enumeration.AlcoholConsumption;
 import com.softuai.mevo.core.enumeration.GoalType;
 import com.softuai.mevo.core.enumeration.TrainingExperience;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tb_user")
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 public class UserEntity {
 
     @Id
@@ -46,7 +37,7 @@ public class UserEntity {
     @Column(name = "bio", nullable = false, length = 255)
     private String bio;
 
-    @Column(name = "dietaryRestrictions")
+    @Column(name = "dietary_restrictions")
     private String dietaryRestrictions;
 
     @Column(name = "food_preferences")
@@ -91,7 +82,7 @@ public class UserEntity {
     @Column(name = "account_locked", nullable = false)
     private boolean accountLocked;
 
-    @Column(name = "phone_number", unique = true, length = 20)
+    @Column(name = "phone_number", unique = true)
     private String phoneNumber;
 
     @Column(name = "time_zone", length = 50)
@@ -120,6 +111,330 @@ public class UserEntity {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    public UserEntity() {
+    }
+
+    public UserEntity(
+            Long id,
+            String firstName,
+            String lastName,
+            String email,
+            String password,
+            char sex,
+            String profileImage,
+            String bio,
+            String dietaryRestrictions,
+            String foodPreferences,
+            String healthIssues,
+            LocalDate birthDate,
+            double height,
+            double weight,
+            ActivityLevel activityLevel,
+            GoalType goalType,
+            boolean emailVerified,
+            String verificationToken,
+            String passwordResetToken,
+            LocalDateTime passwordResetExpiresAt,
+            int failedLoginAttempts,
+            LocalDateTime lastFailedLoginAt,
+            boolean accountLocked,
+            String phoneNumber,
+            String timezone,
+            int dailyCaloriesGoal,
+            TrainingExperience trainingExperience,
+            boolean smoker,
+            AlcoholConsumption alcoholConsumption,
+            double sleepHours,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt
+    ) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.sex = sex;
+        this.profileImage = profileImage;
+        this.bio = bio;
+        this.dietaryRestrictions = dietaryRestrictions;
+        this.foodPreferences = foodPreferences;
+        this.healthIssues = healthIssues;
+        this.birthDate = birthDate;
+        this.height = height;
+        this.weight = weight;
+        this.activityLevel = activityLevel;
+        this.goalType = goalType;
+        this.emailVerified = emailVerified;
+        this.verificationToken = verificationToken;
+        this.passwordResetToken = passwordResetToken;
+        this.passwordResetExpiresAt = passwordResetExpiresAt;
+        this.failedLoginAttempts = failedLoginAttempts;
+        this.lastFailedLoginAt = lastFailedLoginAt;
+        this.accountLocked = accountLocked;
+        this.phoneNumber = phoneNumber;
+        this.timezone = timezone;
+        this.dailyCaloriesGoal = dailyCaloriesGoal;
+        this.trainingExperience = trainingExperience;
+        this.smoker = smoker;
+        this.alcoholConsumption = alcoholConsumption;
+        this.sleepHours = sleepHours;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public char getSex() {
+        return sex;
+    }
+
+    public void setSex(char sex) {
+        this.sex = sex;
+    }
+
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getDietaryRestrictions() {
+        return dietaryRestrictions;
+    }
+
+    public void setDietaryRestrictions(String dietaryRestrictions) {
+        this.dietaryRestrictions = dietaryRestrictions;
+    }
+
+    public String getFoodPreferences() {
+        return foodPreferences;
+    }
+
+    public void setFoodPreferences(String foodPreferences) {
+        this.foodPreferences = foodPreferences;
+    }
+
+    public String getHealthIssues() {
+        return healthIssues;
+    }
+
+    public void setHealthIssues(String healthIssues) {
+        this.healthIssues = healthIssues;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public ActivityLevel getActivityLevel() {
+        return activityLevel;
+    }
+
+    public void setActivityLevel(ActivityLevel activityLevel) {
+        this.activityLevel = activityLevel;
+    }
+
+    public GoalType getGoalType() {
+        return goalType;
+    }
+
+    public void setGoalType(GoalType goalType) {
+        this.goalType = goalType;
+    }
+
+    public boolean isEmailVerified() {
+        return emailVerified;
+    }
+
+    public void setEmailVerified(boolean emailVerified) {
+        this.emailVerified = emailVerified;
+    }
+
+    public String getVerificationToken() {
+        return verificationToken;
+    }
+
+    public void setVerificationToken(String verificationToken) {
+        this.verificationToken = verificationToken;
+    }
+
+    public String getPasswordResetToken() {
+        return passwordResetToken;
+    }
+
+    public void setPasswordResetToken(String passwordResetToken) {
+        this.passwordResetToken = passwordResetToken;
+    }
+
+    public LocalDateTime getPasswordResetExpiresAt() {
+        return passwordResetExpiresAt;
+    }
+
+    public void setPasswordResetExpiresAt(LocalDateTime passwordResetExpiresAt) {
+        this.passwordResetExpiresAt = passwordResetExpiresAt;
+    }
+
+    public int getFailedLoginAttempts() {
+        return failedLoginAttempts;
+    }
+
+    public void setFailedLoginAttempts(int failedLoginAttempts) {
+        this.failedLoginAttempts = failedLoginAttempts;
+    }
+
+    public LocalDateTime getLastFailedLoginAt() {
+        return lastFailedLoginAt;
+    }
+
+    public void setLastFailedLoginAt(LocalDateTime lastFailedLoginAt) {
+        this.lastFailedLoginAt = lastFailedLoginAt;
+    }
+
+    public boolean isAccountLocked() {
+        return accountLocked;
+    }
+
+    public void setAccountLocked(boolean accountLocked) {
+        this.accountLocked = accountLocked;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getTimezone() {
+        return timezone;
+    }
+
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
+    }
+
+    public int getDailyCaloriesGoal() {
+        return dailyCaloriesGoal;
+    }
+
+    public void setDailyCaloriesGoal(int dailyCaloriesGoal) {
+        this.dailyCaloriesGoal = dailyCaloriesGoal;
+    }
+
+    public TrainingExperience getTrainingExperience() {
+        return trainingExperience;
+    }
+
+    public void setTrainingExperience(TrainingExperience trainingExperience) {
+        this.trainingExperience = trainingExperience;
+    }
+
+    public boolean isSmoker() {
+        return smoker;
+    }
+
+    public void setSmoker(boolean smoker) {
+        this.smoker = smoker;
+    }
+
+    public AlcoholConsumption getAlcoholConsumption() {
+        return alcoholConsumption;
+    }
+
+    public void setAlcoholConsumption(AlcoholConsumption alcoholConsumption) {
+        this.alcoholConsumption = alcoholConsumption;
+    }
+
+    public double getSleepHours() {
+        return sleepHours;
+    }
+
+    public void setSleepHours(double sleepHours) {
+        this.sleepHours = sleepHours;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }
-
-

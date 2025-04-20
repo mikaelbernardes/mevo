@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class UserBeanConfiguration {
-    
+
     @Bean
     public AuthenticationUserUseCase authenticationUserUseCase(UserGateway userGateway) {
         return new AuthenticationUserUseCaseImpl(userGateway);

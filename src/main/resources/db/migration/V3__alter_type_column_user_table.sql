@@ -1,0 +1,2 @@
+ALTER TABLE tb_user
+ALTER COLUMN phone_number TYPE TEXT;
