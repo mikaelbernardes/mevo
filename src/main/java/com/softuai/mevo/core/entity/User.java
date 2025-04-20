@@ -5,6 +5,7 @@ import com.softuai.mevo.core.enumeration.AlcoholConsumption;
 import com.softuai.mevo.core.enumeration.GoalType;
 import com.softuai.mevo.core.enumeration.TrainingExperience;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record User(
@@ -19,7 +20,7 @@ public record User(
         String dietaryRestrictions,
         String foodPreferences,
         String healthIssues,
-        LocalDateTime birthDate,
+        LocalDate birthDate,
         double height,
         double weight,
         ActivityLevel activityLevel,
