@@ -6,10 +6,12 @@ import com.softuai.mevo.infrastructure.mapper.UserCoreMapper;
 import com.softuai.mevo.infrastructure.persistence.entity.UserEntity;
 import com.softuai.mevo.infrastructure.persistence.repository.UserRepository;
 import com.softuai.mevo.infrastructure.util.HasherUtil;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.Map;
 
+@Component
 public class UserJpaGateway implements UserGateway {
 
     private final UserRepository userRepository;
