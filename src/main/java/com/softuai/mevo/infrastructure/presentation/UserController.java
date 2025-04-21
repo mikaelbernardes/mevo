@@ -85,4 +85,10 @@ public class UserController {
         return ResponseEntity.ok(userCoreMapper.toResponseDTO(responseCore));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<UserResponseDTO> deleteUser(@PathVariable Long id) {
+        deleteUserUseCase.execute(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
