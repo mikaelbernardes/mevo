@@ -69,13 +69,19 @@ public class UserController {
     public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserDTO requestBody) {
         UserEntity requestEntity = userDTOMapper.toEntity(requestBody);
         User responseCore = createUserUseCase.execute(userCoreMapper.toCore(requestEntity));
-        UserEntity responseEntity = userCoreMapper.toEntity(responseCore);
-        return ResponseEntity.ok(userDTOMapper.toResponseDTO(responseEntity));
+        return ResponseEntity.ok(userCoreMapper.toResponseDTO(responseCore));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDTO> readUser(@PathVariable Long id) {
         User responseCore = readUserUseCase.execute(id);
+        return ResponseEntity.ok(userCoreMapper.toResponseDTO(responseCore));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO requestBody) {
+        UserEntity requestEntity = userDTOMapper.toEntity(requestBody);
+        User responseCore = updateUserUseCase.execute(id, userCoreMapper.toCore(requestEntity));
         return ResponseEntity.ok(userCoreMapper.toResponseDTO(responseCore));
     }
 

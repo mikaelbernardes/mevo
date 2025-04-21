@@ -108,7 +108,39 @@ public class UserJpaGateway implements UserGateway {
 
     @Override
     public User UpdateUserUseCase(Long id, User user) {
-        return null;
+        UserEntity entity = userRepository.findById(id).orElse(null);
+
+        assert entity != null;
+
+        entity.setFirstName(user.firstName());
+        entity.setLastName(user.lastName());
+        entity.setSex(user.sex());
+        entity.setProfileImage(entity.getProfileImage());
+        entity.setBio(user.bio());
+        entity.setDietaryRestrictions(user.dietaryRestrictions());
+        entity.setFoodPreferences(user.foodPreferences());
+        entity.setHealthIssues(user.healthIssues());
+        entity.setBirthDate(user.birthDate());
+        entity.setHeight(user.height());
+        entity.setWeight(user.weight());
+        entity.setActivityLevel(user.activityLevel());
+        entity.setGoalType(user.goalType());
+
+        try {
+            entity.setPhoneNumber(cryptoUtil.encrypt(entity.getPhoneNumber()));
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao cryptografar o número de telefone", e);
+        }
+
+        entity.setTimezone(user.timezone());
+        entity.setDailyCaloriesGoal(user.dailyCaloriesGoal());
+        entity.setTrainingExperience(user.trainingExperience());
+        entity.setSmoker(user.smoker());
+        entity.setAlcoholConsumption(user.alcoholConsumption());
+        entity.setSleepHours(user.sleepHours());
+        entity.setUpdatedAt(LocalDateTime.now());
+
+        return userCoreMapper.toCore(entity);
     }
 
     @Override
