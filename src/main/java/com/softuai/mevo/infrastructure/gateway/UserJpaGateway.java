@@ -5,6 +5,7 @@ import com.softuai.mevo.core.gateway.UserGateway;
 import com.softuai.mevo.infrastructure.mapper.UserCoreMapper;
 import com.softuai.mevo.infrastructure.persistence.entity.UserEntity;
 import com.softuai.mevo.infrastructure.persistence.repository.UserRepository;
+import com.softuai.mevo.infrastructure.util.CryptoUtil;
 import com.softuai.mevo.infrastructure.util.HasherUtil;
 import org.springframework.stereotype.Component;
 
@@ -17,11 +18,18 @@ public class UserJpaGateway implements UserGateway {
     private final UserRepository userRepository;
     private final UserCoreMapper userCoreMapper;
     private final HasherUtil hasherUtil;
+    private final CryptoUtil cryptoUtil;
 
-    public UserJpaGateway(UserRepository userRepository, UserCoreMapper userCoreMapper, HasherUtil hasherUtil) {
+    public UserJpaGateway(
+            UserRepository userRepository, 
+            UserCoreMapper userCoreMapper, 
+            HasherUtil hasherUtil,
+            CryptoUtil cryptoUtil
+    ) {
         this.userRepository = userRepository;
         this.userCoreMapper = userCoreMapper;
         this.hasherUtil = hasherUtil;
+        this.cryptoUtil = cryptoUtil;
     }
 
     @Override
@@ -44,7 +52,13 @@ public class UserJpaGateway implements UserGateway {
         UserEntity entity = userCoreMapper.toEntity(user);
         entity.setPassword(hasherUtil.hash(entity.getPassword()));
         entity.setCreatedAt(LocalDateTime.now());
-        entity.setPhoneNumber(hasherUtil.hash(entity.getPhoneNumber()));
+
+        try {
+            entity.setPhoneNumber(cryptoUtil.encrypt(entity.getPhoneNumber()));
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao criptografar número de telefone", e);
+        }
+
         UserEntity savedEntity = userRepository.save(entity);
         return userCoreMapper.toCore(savedEntity);
     }
@@ -62,6 +76,19 @@ public class UserJpaGateway implements UserGateway {
     @Override
     public User PatchUserUseCase(Long id, Map<String, Object> updates) {
         return null;
+    }
+
+    @Override
+    public User ReadUserUseCase(Long id) {
+        UserEntity entity = userRepository.findById(id).orElse(null);
+
+        try {
+            entity.setPhoneNumber(cryptoUtil.decrypt(entity.getPhoneNumber()));
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao descriptografar o número de telefone", e);
+        }
+
+        return userCoreMapper.toCore(entity);
     }
 
     @Override

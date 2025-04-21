@@ -13,6 +13,7 @@ public interface UserGateway {
     void DeleteUserUseCase(Long id);
     void LogoutUserUseCase(Long userId);
     User PatchUserUseCase(Long id, Map<String, Object> updates);
+    User ReadUserUseCase(Long id);
     void RequestPasswordResetUseCase(String email);
     void ResendVerificationEmailUseCase(String email);
     void ResetPasswordUseCase(String token, String newPassword);

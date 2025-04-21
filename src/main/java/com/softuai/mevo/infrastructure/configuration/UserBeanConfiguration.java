@@ -44,6 +44,11 @@ public class UserBeanConfiguration {
     }
 
     @Bean
+    public ReadUserUseCase readUserUseCase(UserGateway userGateway) {
+        return new ReadUserUseCaseImpl(userGateway);
+    }
+
+    @Bean
     public RequestPasswordResetUseCase requestPasswordResetUseCase(UserGateway userGateway) {
         return new RequestPasswordResetUseCaseImpl(userGateway);
     }

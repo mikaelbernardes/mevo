@@ -1,6 +1,7 @@
 package com.softuai.mevo.infrastructure.mapper;
 
 import com.softuai.mevo.core.entity.User;
+import com.softuai.mevo.infrastructure.dto.UserResponseDTO;
 import com.softuai.mevo.infrastructure.persistence.entity.UserEntity;
 import org.mapstruct.Mapper;
 
@@ -10,5 +11,7 @@ public interface UserCoreMapper {
     User toCore(UserEntity entity);
 
     UserEntity toEntity(User user);
+
+    UserResponseDTO toResponseDTO(User core);
 
 }

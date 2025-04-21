@@ -7,12 +7,8 @@ import com.softuai.mevo.infrastructure.dto.UserResponseDTO;
 import com.softuai.mevo.infrastructure.mapper.UserCoreMapper;
 import com.softuai.mevo.infrastructure.mapper.UserDTOMapper;
 import com.softuai.mevo.infrastructure.persistence.entity.UserEntity;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/user")
@@ -27,6 +23,7 @@ public class UserController {
     private final DeleteUserUseCase deleteUserUseCase;
     private final LogoutUserUseCase logoutUserUseCase;
     private final PatchUserUseCase patchUserUseCase;
+    private final ReadUserUseCase readUserUseCase;
     private final RequestPasswordResetUseCase requestPasswordResetUseCase;
     private final ResendVerificationEmailUseCase resendVerificationEmailUseCase;
     private final ResetPasswordUseCase resetPasswordUseCase;
@@ -43,6 +40,7 @@ public class UserController {
             DeleteUserUseCase deleteUserUseCase,
             LogoutUserUseCase logoutUserUseCase,
             PatchUserUseCase patchUserUseCase,
+            ReadUserUseCase readUserUseCase,
             RequestPasswordResetUseCase requestPasswordResetUseCase,
             ResendVerificationEmailUseCase resendVerificationEmailUseCase,
             ResetPasswordUseCase resetPasswordUseCase,
@@ -58,6 +56,7 @@ public class UserController {
         this.deleteUserUseCase = deleteUserUseCase;
         this.logoutUserUseCase = logoutUserUseCase;
         this.patchUserUseCase = patchUserUseCase;
+        this.readUserUseCase = readUserUseCase;
         this.requestPasswordResetUseCase = requestPasswordResetUseCase;
         this.resendVerificationEmailUseCase = resendVerificationEmailUseCase;
         this.resetPasswordUseCase = resetPasswordUseCase;
@@ -74,5 +73,10 @@ public class UserController {
         return ResponseEntity.ok(userDTOMapper.toResponseDTO(responseEntity));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponseDTO> readUser(@PathVariable Long id) {
+        User responseCore = readUserUseCase.execute(id);
+        return ResponseEntity.ok(userCoreMapper.toResponseDTO(responseCore));
+    }
 
 }
