@@ -1,6 +1,7 @@
 package com.softuai.mevo.infrastructure.gateway;
 
 import com.softuai.mevo.core.entity.User;
+import com.softuai.mevo.core.exception.UserNotFoundException;
 import com.softuai.mevo.core.gateway.UserGateway;
 import com.softuai.mevo.infrastructure.mapper.UserCoreMapper;
 import com.softuai.mevo.infrastructure.persistence.entity.UserEntity;
@@ -49,16 +50,11 @@ public class UserJpaGateway implements UserGateway {
 
     @Override
     public User CreateUserUseCase(User user) {
+
         UserEntity entity = userCoreMapper.toEntity(user);
         entity.setPassword(hasherUtil.hash(entity.getPassword()));
         entity.setCreatedAt(LocalDateTime.now());
-
-        try {
-            entity.setPhoneNumber(cryptoUtil.encrypt(entity.getPhoneNumber()));
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao criptografar número de telefone", e);
-        }
-
+        entity.setPhoneNumber(cryptoUtil.encrypt(entity.getPhoneNumber()));
         UserEntity savedEntity = userRepository.save(entity);
         return userCoreMapper.toCore(savedEntity);
     }
@@ -66,7 +62,7 @@ public class UserJpaGateway implements UserGateway {
     @Override
     public void DeleteUserUseCase(Long id) {
         if (!userRepository.existsById(id)) {
-            throw new RuntimeException("Usuário não encontrado");
+            throw new UserNotFoundException();
         }
         userRepository.deleteById(id);
     }
@@ -83,14 +79,8 @@ public class UserJpaGateway implements UserGateway {
 
     @Override
     public User ReadUserUseCase(Long id) {
-        UserEntity entity = userRepository.findById(id).orElse(null);
-
-        try {
-            entity.setPhoneNumber(cryptoUtil.decrypt(entity.getPhoneNumber()));
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao descriptografar o número de telefone", e);
-        }
-
+        UserEntity entity = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        entity.setPhoneNumber(cryptoUtil.decrypt(entity.getPhoneNumber()));
         return userCoreMapper.toCore(entity);
     }
 
@@ -111,9 +101,7 @@ public class UserJpaGateway implements UserGateway {
 
     @Override
     public User UpdateUserUseCase(Long id, User user) {
-        UserEntity entity = userRepository.findById(id).orElse(null);
-
-        assert entity != null;
+        UserEntity entity = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
 
         entity.setFirstName(user.firstName());
         entity.setLastName(user.lastName());
@@ -128,13 +116,7 @@ public class UserJpaGateway implements UserGateway {
         entity.setWeight(user.weight());
         entity.setActivityLevel(user.activityLevel());
         entity.setGoalType(user.goalType());
-
-        try {
-            entity.setPhoneNumber(cryptoUtil.encrypt(entity.getPhoneNumber()));
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao cryptografar o número de telefone", e);
-        }
-
+        entity.setPhoneNumber(cryptoUtil.encrypt(entity.getPhoneNumber()));
         entity.setTimezone(user.timezone());
         entity.setDailyCaloriesGoal(user.dailyCaloriesGoal());
         entity.setTrainingExperience(user.trainingExperience());
@@ -151,4 +133,18 @@ public class UserJpaGateway implements UserGateway {
 
     }
 
+    @Override
+    public boolean existsById(Long id) {
+        return userRepository.existsById(id);
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public boolean existsByPhoneNumber(String phoneNumber) {
+        return userRepository.existsByPhoneNumber(cryptoUtil.encrypt(phoneNumber));
+    }
 }

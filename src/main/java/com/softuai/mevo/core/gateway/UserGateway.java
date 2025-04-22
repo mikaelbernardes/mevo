@@ -19,5 +19,9 @@ public interface UserGateway {
     void ResetPasswordUseCase(String token, String newPassword);
     User UpdateUserUseCase(Long id, User user);
     void VerifyEmailUseCase(String token);
+    boolean existsById(Long id);
+    boolean existsByEmail(String email);
+    boolean existsByPhoneNumber(String phoneNumber);
+
 
 }

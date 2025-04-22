@@ -2,6 +2,7 @@ package com.softuai.mevo.infrastructure.configuration;
 
 import com.softuai.mevo.core.gateway.UserGateway;
 import com.softuai.mevo.core.usecase.user.*;
+import com.softuai.mevo.infrastructure.util.CryptoUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -72,5 +73,4 @@ public class UserBeanConfiguration {
     public VerifyEmailUseCase verifyEmailUseCase(UserGateway userGateway) {
         return new VerifyEmailUseCaseImpl(userGateway);
     }
-
 }
