@@ -1,5 +1,6 @@
 package com.softuai.mevo.core.usecase.user;
 
+import com.softuai.mevo.core.exception.UserNotFoundException;
 import com.softuai.mevo.core.gateway.UserGateway;
 
 public class DeleteUserUseCaseImpl implements DeleteUserUseCase {
@@ -12,6 +13,11 @@ public class DeleteUserUseCaseImpl implements DeleteUserUseCase {
 
     @Override
     public void execute(Long id) {
+
+        if (!userGateway.existsById(id)) {
+            throw new UserNotFoundException();
+        }
+
         userGateway.DeleteUserUseCase(id);
     }
 

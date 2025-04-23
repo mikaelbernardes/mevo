@@ -61,9 +61,6 @@ public class UserJpaGateway implements UserGateway {
 
     @Override
     public void DeleteUserUseCase(Long id) {
-        if (!userRepository.existsById(id)) {
-            throw new UserNotFoundException();
-        }
         userRepository.deleteById(id);
     }
 
